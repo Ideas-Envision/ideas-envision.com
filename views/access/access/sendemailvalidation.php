@@ -18,47 +18,22 @@
             </div>-->
             <div class="row">
                 <div class="col-sm-12 col-md-4 col-lg-4 col-md-push-4 col-lg-push-4">
-                    <h1 class="text-green text-center">Módulo de Acceso</h1>
-                    <p class="lead text-white text-center">Formulario de <strong>Registro</strong>, la <strong>documentación</strong> para el módulo de acceso se encuentra en la parte inferior.</p>
-                    <form id="access-form-register">
-                        <div class="form-group text-center">
-                            <img src="<?Php echo $vParamsViewBackEndLayout['root_backend_pages_images']; ?>img-avatar-login.png" alt="Avatar" class="avatar">
-                        </div>                        
-                        <div class="col-sm-12 col-md-6 col-lg-6">
-                            <label for="exampleInputEmail1">Nombres</label>
-                            <input type="text" class="form-control" name="vName" id="vName" placeholder="Nombres"> 
+                    <h1 class="text-green text-center">Módulo de Ingreso</h1>
+                    <p class="lead text-white text-center">Formulario de <strong>Ingreso</strong>, la <strong>documentación</strong> para el módulo de acceso se encuentra en la parte inferior.</p>
+                    <form id="access-form-emailvalidate">
+                        <!--<div class="form-group  text-center">
+                            <img src="<?Php //echo $vParamsViewBackEndLayout['root_backend_pages_images']; ?>img-avatar-login.png" alt="Avatar" class="avatar">
+                        </div>-->
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Usuario/Correo Electrónico</label>
+                            <input type="email" class="form-control" name="vEmail" id="vEmail" placeholder="Correo Electrónico">
                         </div>
-                        <div class="col-sm-12 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Apellidos</label>
-                                <input type="text" class="form-control" name="vLastNames" id="vLastNames" placeholder="Apellidos">
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Usuario/Correo Electrónico</label>
-                                <input type="email" class="form-control" name="vEmail" id="vEmail" placeholder="Correo Electrónico">
-                            </div>
-                        </div>                        
-                        <div class="col-sm-12 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Contraseña</label>
-                                <input type="password" class="form-control" name="vPassword" placeholder="Contraseña">
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Repetir Contraseña</label>
-                                <input type="password" class="form-control" name="vRePassword" placeholder="RepetirContraseña">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn login-button">Registrarme</button>
+                        <button type="submit" class="btn login-button">Enviar</button>
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-lg-12 text-center">
                                 <div id="nav_iden_login">
                                     <ul>
-                                        <li><a class="text-gray" href="<?php echo BASE_VIEW_URL; ?>access">Ingresar</a></li>
-                                        <li><a class="text-gray" href="<?php echo BASE_VIEW_URL; ?>access/sendEmailValidation">Validar Cuenta</a></li>
+                                        <li><a class="text-gray" href="<?php echo BASE_VIEW_URL; ?>access/register">Registrar</a></li>
                                         <li><a class="text-gray" href="<?php echo BASE_VIEW_URL; ?>">¿olvidaste tu contraseña?</a></li>
                                     </ul>
                                 </div>

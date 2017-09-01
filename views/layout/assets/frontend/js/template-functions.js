@@ -4,8 +4,7 @@
 *	Author: ThemeMountain
 *	Copyright: ThemeMountain
 */
-//window.localStorage.setItem('globalURLIdeasEnvisionConnection','http://190.181.31.167/ideasenvision2016/');
-window.localStorage.setItem('globalURLIdeasEnvisionConnection','http://www.ideas-envision.com/');
+
 
 $( document ).ready( function(){
 
@@ -30,8 +29,10 @@ $( document ).ready( function(){
 	*	Template Functions
 	*/
 
-	var globalURLIdeasEnvisionConnection = window.localStorage.getItem('globalURLIdeasEnvisionConnection');
-	var assetsPath =  window.localStorage.getItem('globalURLIdeasEnvisionConnection') +'views/layout/assets/frontend/';
+    localStorage.setItem(globalURLIdeasEnvision, 'http://localhost/www.ideas-envision.com/');
+    
+    var globalURLIdeasEnvision = localStorage.getItem(globalURLIdeasEnvision);
+	var assetsPath =  window.localStorage.getItem('globalURLIdeasEnvision') +'views/layout/assets/frontend/';
 
 	// Header
 	var header = '.header';
@@ -1399,7 +1400,7 @@ $( document ).ready( function(){
 
 				var data = new FormData(this);
 				$.ajax({
-					url: globalURLIdeasEnvisionConnection + 'contact/sendOneMail/',
+					url: globalURLIdeasEnvision + 'contact/sendOneMail/',
 					data: data,
 					processData: false,
 					contentType: false,
@@ -1420,7 +1421,7 @@ $( document ).ready( function(){
 						else if(resultado == 'true')
 							{
 								alert('El Correo Electrónico ha sido enviado correctamente!.');
-								window.location = globalURLIdeasEnvisionConnection + 'contact';
+								window.location = globalURLIdeasEnvision + 'contact';
 								return true;
 							}
 					}
