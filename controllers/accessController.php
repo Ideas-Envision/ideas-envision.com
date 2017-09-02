@@ -30,6 +30,7 @@ class accessController extends IdEnController
                 /* END VALIDATION TIME SESSION USER */            
             
                 if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                    
                     $vEmail = (string) strtolower($_POST['vEmail']);
                     $vPassword = (string) $_POST['vPassword'];
                     
@@ -38,6 +39,7 @@ class accessController extends IdEnController
                     
                     if($vVerifyUserStatus == 0){
                         // Email not register in database.
+                        //echo 'El correo electrónico no esta registrado.';
                         echo '0';
                     } elseif($vVerifyUserStatus == 1){
                         // Email exists in database.
@@ -46,25 +48,31 @@ class accessController extends IdEnController
                         if($vUserAccountStatus == 0){
                             echo '3';
                         } elseif($vUserAccountStatus == 1){
-                            $vAccessStatus = $this->vAccessData->getAccessStatus($vEmail,$vPassword);
-                            $vProfileType = 1;
-                            $vProfileCode = $this->vProfileData->getProfileCodeFromUserCode($vAccessStatus['n_coduser'], $vProfileType);
                             
-                            IdEnSession::setSession(DEFAULT_USER_AUTHENTICATE, true);
-                            IdEnSession::setSession(DEFAULT_USER_AUTHENTICATE.'Code', $vAccessStatus['n_coduser']);
-                            IdEnSession::setSession(DEFAULT_USER_AUTHENTICATE.'Email', $vAccessStatus['c_email']);
-                            IdEnSession::setSession(DEFAULT_USER_AUTHENTICATE.'Role', $vAccessStatus['c_userrole']);
-                            IdEnSession::setSession(DEFAULT_USER_AUTHENTICATE.'ProfileCode', $vProfileCode);
-                            IdEnSession::setSession('vTimeSessionUser', time());
-                
-                            /*$arrayUserData = array(
-                                                    'vUserCode' => $vUserLoginStatus['n_coduser'],
-                                                    'vUserName' => $this->vLoginData->getUserCompleteNames($vUserLoginStatus['n_coduser'])
-                                                );
-                                
-                            echo json_encode($arrayUserData);*/
-                            
-                            echo '1';
+                            if($this->vUsersData->validateEmailPassword($vEmail, $vPassword) == 0){
+                                //echo 'La contraseña es incorrecta.';
+                                echo '4';
+                            } else {
+                                $vAccessStatus = $this->vAccessData->getAccessStatus($vEmail,$vPassword);
+                                $vProfileType = 1;
+                                $vProfileCode = $this->vProfileData->getProfileCodeFromUserCode($vAccessStatus['n_coduser'], $vProfileType);
+
+                                IdEnSession::setSession(DEFAULT_USER_AUTHENTICATE, true);
+                                IdEnSession::setSession(DEFAULT_USER_AUTHENTICATE.'Code', $vAccessStatus['n_coduser']);
+                                IdEnSession::setSession(DEFAULT_USER_AUTHENTICATE.'Email', $vAccessStatus['c_email']);
+                                IdEnSession::setSession(DEFAULT_USER_AUTHENTICATE.'Role', $vAccessStatus['c_userrole']);
+                                IdEnSession::setSession(DEFAULT_USER_AUTHENTICATE.'ProfileCode', $vProfileCode);
+                                IdEnSession::setSession('vTimeSessionUser', time());
+
+                                /*$arrayUserData = array(
+                                                        'vUserCode' => $vUserLoginStatus['n_coduser'],
+                                                        'vUserName' => $this->vLoginData->getUserCompleteNames($vUserLoginStatus['n_coduser'])
+                                                    );
+
+                                echo json_encode($arrayUserData);*/
+
+                                echo '1';
+                            }
                             
                         } elseif($vUserAccountStatus == 2){
                             echo '2';
@@ -144,9 +152,9 @@ class accessController extends IdEnController
 			{
 				if ($_SERVER['REQUEST_METHOD'] == 'POST')
 					{
-						$vEmail = (string) $_POST['email'];
+						$vEmail = (string) $_POST['vEmail'];
                     
-                        if($this->vUsersData->getUserEmailExists($vEmail) == 1)){
+                        if($this->vUsersData->getUserEmailExists($vEmail) == 1){
                             $vState = $this->vUsersData->getUserState($vEmail);
                             if($vState == 2){
                                 $vUserActivationCode = $this->vUsersData->getUserActivationCode($vEmail);
@@ -162,8 +170,8 @@ class accessController extends IdEnController
                                 $this->vMail->Password = '@1nf0rm4c10n3s';
                                 $this->vMail->SMTPSecure = 'ssl';
                                 $this->vMail->Port = 25;
-                                $this->vMail->SetFrom($email, strtoupper($fname.' '.$lname));
-                                $this->vMail->AddAddress(strtolower(trim('informaciones@ideas-envision.com')));
+                                $this->vMail->SetFrom('informaciones@ideas-envision.com', 'Ideas-Envision Servicios Integrales');
+                                $this->vMail->AddAddress(strtolower(trim($vEmail)));
                                 $this->vMail->Subject = 'Validación de cuenta Ideas-Envision';
                                 $this->vMail->MsgHTML($vTextMessage);											
 
@@ -172,8 +180,8 @@ class accessController extends IdEnController
                                 if($exito)
                                     {
                                          $this->vMail->ClearAddresses();
-                                         //echo 'Se ha enviado el correo a '.$email;
-                                         echo 'true';
+                                         echo 'Las instrucciones de validación de cuenta se han enviado al correo a '.$vEmail.', gracias!';
+                                         //echo 'true';
                                     }
                                 else
                                     {

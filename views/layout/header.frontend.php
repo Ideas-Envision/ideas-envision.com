@@ -99,7 +99,11 @@
                 </li>                
                 <li><a href="#" class="contains-sub-menu">Proyectos</a></li>
                 <li><a href="<?Php echo BASE_VIEW_URL; ?>contact">Contáctanos</a></li>
-                <li><a href="<?Php echo BASE_VIEW_URL; ?>access">Ingresar</a></li>
+                <?Php
+                    if(IdEnSession::getSession(DEFAULT_USER_AUTHENTICATE) == false){
+                        echo '<li><a href="'.BASE_VIEW_URL.'access">Ingresar</a></li>';
+                    }
+                ?>
             </ul>
         </nav>
         <div class="side-navigation-footer">
@@ -138,7 +142,12 @@
                             <li><a href="<?Php echo BASE_VIEW_URL; ?>">Inicio</a></li>
                             <li><a href="<?Php echo BASE_VIEW_URL; ?>portfolio">Portafolio</a></li>
                             <li><a href="<?Php echo BASE_VIEW_URL; ?>contact">Contáctanos</a></li>
-                            <li><a href="<?Php echo BASE_VIEW_URL; ?>access">Ingresar</a></li>
+                            
+                            <?Php
+                                if(IdEnSession::getSession(DEFAULT_USER_AUTHENTICATE) == false){
+                                    echo '<li><a href="'.BASE_VIEW_URL.'access">Ingresar</a></li>';
+                                }
+                            ?>
                         </ul>
                     </nav>
                 </div>

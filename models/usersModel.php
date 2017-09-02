@@ -7,6 +7,22 @@ class usersModel extends IdEnModel
 			}
 
         /* BEGIN SELECT STATEMENT QUERY  */
+    
+		public function validateEmailPassword($vUserEmail, $vUserPassword)
+			{
+                $vUserEmail = (string) $vUserEmail;
+                $vUserPassword = (string) IdEnHash::getHash('sha1',$vUserPassword,DEFAULT_HASH_KEY);            
+            
+				$vResultValidateEmailPassword = $this->vDataBase->query("SELECT
+                                                                COUNT(*)
+                                                            FROM tb_ideasenvision_users
+                                                                WHERE tb_ideasenvision_users.c_email = '$vUserEmail'
+                                                                    AND tb_ideasenvision_users.c_pass1 ='$vUserPassword'
+                                                                    AND tb_ideasenvision_users.c_pass2 ='$vUserPassword';");
+				return $vResultValidateEmailPassword->fetchColumn();
+				$vResultValidateEmailPassword->close();
+			}    
+    
 		public function getUserNameExists($vUserName)
 			{
                 $vUserName = (string) $vUserName;
@@ -45,7 +61,7 @@ class usersModel extends IdEnModel
     
 		public function getUserName($vUserCode)
 			{
-                $vUserCode = (string) $vUserCode;
+                $vUserCode = (int) $vUserCode;
             
 				$vResultUserName = $this->vDataBase->query("SELECT
                                                                 tb_ideasenvision_users.c_username
@@ -53,11 +69,11 @@ class usersModel extends IdEnModel
                                                                 WHERE tb_ideasenvision_users.n_coduser = $vUserCode;");
 				return $vResultUserName->fetchAll();
 				$vResultUserName->close();
-			}    
+			}
     
-		public function getUserEmail($vUserName)
+		public function getUserEmail($vUserCode)
 			{
-                $vUserName = (string) $vUserName;
+                $vUserCode = (int) $vUserCode;
             
 				$vResultUserEmail = $this->vDataBase->query("SELECT
                                                                 tb_ideasenvision_users.c_email
