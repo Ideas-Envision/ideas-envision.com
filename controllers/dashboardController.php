@@ -11,17 +11,16 @@ class dashboardController extends IdEnController
                 } else {
                     IdEnSession::timeSession();
                 }
-                /* END VALIDATION TIME SESSION USER */
+                /* END VALIDATION TIME SESSION USER */ 
             
                 $this->vUsersData = $this->LoadModel('users');
 			}
 			
 		public function index(){
             
-            $this->vView->vUserNamesComplete = $this->vUsersData->getUserNamesComplete(IdEnSession::getSession(DEFAULT_USER_AUTHENTICATE.'Code'));
-            $this->vView->visualizar('index');
+                $this->vView->vUserNamesComplete = $this->vUsersData->getUserNamesComplete(IdEnSession::getSession(DEFAULT_USER_AUTHENTICATE.'Code'));
+                $this->vView->visualizar('index');
             
-            $this->vView->visualizar('index');
 			}       
 	}
 ?>

@@ -16,5 +16,10 @@ define('DEFAULT_DB_ROOT_USER','root');
 define('DEFAULT_DB_ROOT_PASS','vertrigo');
 define('DEFAULT_DB_NAME','db_ideasenvision');
 
+/*define('DEFAULT_DB_ROOT_USER','usrideasenvision');
+define('DEFAULT_DB_ROOT_PASS','eotP\Y@iE3');
+define('DEFAULT_DB_NAME','db_ideasenvision');*/
+
+
 define('DEFAULT_DB_CHARSET','utf8');
 ?>

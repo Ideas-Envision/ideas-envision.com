@@ -30,8 +30,8 @@ $( document ).ready( function(){
 	*/
 
     localStorage.setItem(globalURLIdeasEnvision, 'http://localhost/www.ideas-envision.com/');
-    
     var globalURLIdeasEnvision = localStorage.getItem(globalURLIdeasEnvision);
+    
 	var assetsPath =  window.localStorage.getItem('globalURLIdeasEnvision') +'views/layout/assets/frontend/';
 
 	// Header

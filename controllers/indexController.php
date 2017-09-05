@@ -6,11 +6,11 @@ class indexController extends IdEnController
                 parent::__construct();
             
 				/* BEGIN VALIDATION TIME SESSION USER */
-				if(!IdEnSession::getSession(DEFAULT_USER_AUTHENTICATE)){
+				/*if(!IdEnSession::getSession(DEFAULT_USER_AUTHENTICATE)){
                         $this->redirect('access');
                 } else {
                     IdEnSession::timeSession();
-                }
+                }*/
                 /* END VALIDATION TIME SESSION USER */            
             
                 $this->vUsersData = $this->LoadModel('users');
