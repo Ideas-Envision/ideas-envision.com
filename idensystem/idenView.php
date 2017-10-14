@@ -16,7 +16,7 @@ class IdEnView  extends IdEnController
 			
 		public function visualizar($vNameView, $vItem = FALSE)
 			{
-                $vParamsViewQRCode = array('root_qrcode_img'=>BASE_VIEW_URL.'views/backend/systemBilling/imagesqrcode/');
+                $vParamsViewQRCode = array('root_qrcode_img'=>BASE_VIEW_URL.'views/backend/systembilling/imagesqrcode/');
 
 				$vParamsViewBootstrap = array(
                                         'root_bootstrap_css'=>BASE_VIEW_URL.'views/layout/'.DEFAULT_VIEW_LAYOUT.'/bootstrap/css/',

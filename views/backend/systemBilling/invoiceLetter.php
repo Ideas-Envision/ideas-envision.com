@@ -31,6 +31,14 @@
                                 for($i=0;$i<count($this->vDataBilling);$i++):
                                     $vCodBilling = $this->vDataBilling[$i]['n_codbilling'];
                                     $vCodUser = $this->vDataBilling[$i]['n_coduser'];
+                        
+                                    $vCodActivity = $this->vDataBilling[$i]['n_codactivity'];
+                                    $vActivityWeb = $this->vDataBilling[$i]['c_web'];
+                                    $vActivityEmail = $this->vDataBilling[$i]['c_email'];
+                                    $vType = $this->vDataBilling[$i]['c_type'];
+                                    $vLogotype = $this->vDataBilling[$i]['c_logotype'];
+                                    $vDateLimit = $this->vDataBilling[$i]['d_datelimit'];
+                        
                                     $vAutorizationcode = $this->vDataBilling[$i]['c_autorizationcode'];
                                     $vNameNit = $this->vDataBilling[$i]['c_namenit'];
                                     $vNit = $this->vDataBilling[$i]['c_nit'];
@@ -52,7 +60,7 @@
                         <!-- END PAGE HEADER-->
                         <div class="row">
                             <div class="col-md-8">
-                                <a href="<?Php echo BASE_VIEW_URL.'pdf/printPDFBilling/'.$vBillingNumber;?>" class="btn green" target="_blank"><i class="fa fa-print"></i> Generar PDF </a>
+                                <a href="<?Php echo BASE_VIEW_URL.'pdf/printPDFBilling/'.$vCodActivity.'/'.$vBillingNumber;?>" class="btn green" target="_blank"><i class="fa fa-print"></i> Generar PDF </a>
                             </div>
                         </div>
                         <br/>
@@ -62,8 +70,8 @@
                                     <div class="row invoice-head">
                                         <div class="col-md-4 col-xs-6">
                                             <div class="invoice-logo">
-                                                <img src="<?Php echo $vParamsViewBackEndLayout['root_backend_pages_css']; ?>squemas-invoice.png" class="img-responsive" alt="" />
-                                                <h1 class="uppercase">Factura Oficial</h1>
+                                                <img src="<?Php echo $vParamsViewBackEndLayout['root_backend_pages_css'].$vLogotype; ?>" class="img-responsive" alt="" />
+                                                <h1 class="uppercase"> <?Php echo $vType; ?> Oficial</h1>
                                             </div>
                                         </div>
                                         <div class="col-md-8 col-xs-6">
@@ -87,9 +95,9 @@
                                                     <br/>
                                                     <span class="bold">Telefono móvil</span> 78795415
                                                     <br/>                                                
-                                                    <span class="bold">Correo electrónico</span> info@squemas.com
+                                                    <span class="bold">Correo electrónico</span> <?Php echo $vActivityEmail; ?> 
                                                     <br/>
-                                                    <span class="bold">Sitio Web</span> www.squemas.com
+                                                    <span class="bold">Sitio Web</span> <?Php echo $vActivityWeb; ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -163,7 +171,7 @@
                                     <div class="row invoice-subtotal">                                        
                                         <div class="col-md-6 invoice-text-2 well pull-left">
                                             <strong>Código de control</strong> <?Php echo $this->formatControlCodeInvoice($vControlCode); ?><br/>
-                                            <strong>Fecha límite de emisión</strong> <?Php echo $vLimitBillingDate; ?><br/>
+                                            <strong>Fecha límite de emisión</strong> <?Php echo date_format(date_create($vDateLimit), 'd/m/Y'); ?><br/>
                                         </div>
                                         <div class="col-md-2 well pull-right">
                                             <img src="<?Php echo $vParamsViewQRCode['root_qrcode_img'].$vQRCodeName; ?>" class="img-responsive" alt="" />
@@ -173,7 +181,7 @@
                                     <div class="row invoice-subtotal">                                        
                                         <div class="col-md-12">
                                             <p>Esta factura contribuye al desarrollo del país, el uso ilícito de esta será sancionado de acuerdo a la ley.</p>
-                                            <p>Ley Nº 453: El proveedor deberá suministrar el servicio en las modalidades y términos ofertados o convenidos.</p>
+                                            <p>Ley N° 453: Los servicios deben suministrarse en condiciones de inocuidad, calidad y seguridad.</p>
                                         </div>                                        
                                     </div>
                                 </div>

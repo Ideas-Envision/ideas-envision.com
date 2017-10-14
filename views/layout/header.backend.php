@@ -8,7 +8,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Sistema EasyBilling Bolivia - Sistema de facturación electrónica</title>
+        <title>Sistema ERP Ideas-Envision</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="Preview page of Metronic Admin Theme #1 for blank page layout" name="description" />
@@ -33,7 +33,6 @@
         <!-- BEGIN THEME LAYOUT STYLES -->
         <link href="<?Php echo $vParamsViewBackEndLayout['root_backend_layouts_css']; ?>layout.min.css" rel="stylesheet" type="text/css" />
         <link href="<?Php echo $vParamsViewBackEndLayout['root_backend_layouts_css']; ?>darkblue.min.css" rel="stylesheet" type="text/css" id="style_color" />
-        <link rel="stylesheet" href="<?Php echo $vParamsViewBackEndLayout['root_backend_layouts_css']; ?>gothic.css">
         <link href="<?Php echo $vParamsViewBackEndLayout['root_backend_layouts_css']; ?>iden.min.css" rel="stylesheet" type="text/css" />
         <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="favicon.ico" /> </head>
@@ -47,8 +46,8 @@
                 <div class="page-header-inner ">
                     <!-- BEGIN LOGO -->
                     <div class="page-logo">
-                        <a href="index.html">
-                            <img src="<?Php echo $vParamsViewBackEndLayout['root_backend_layouts_images']; ?>logo.png" alt="logo" class="logo-default" width="170px" /> </a>
+                        <a href="<?Php echo BASE_VIEW_URL; ?>">
+                            <img src="<?Php echo $vParamsViewBackEndLayout['root_backend_layouts_images']; ?>logo-back.png" width="150" alt="logo" class="logo-default" /> </a>
                         <div class="menu-toggler sidebar-toggler">
                             <span></span>
                         </div>
@@ -255,10 +254,15 @@
                                 </a>
                                 <ul class="sub-menu">
                                     <li class="nav-item">
-                                        <a href="<?Php echo BASE_VIEW_URL; ?>systemBilling" class="nav-link">
-                                            <i class="icon-bar-chart"></i> Emisión de Facturas
+                                        <a href="<?Php echo BASE_VIEW_URL; ?>systemBilling/principalKeys" class="nav-link">
+                                            <i class="fa fa-key"></i> Código de Autorización & Llave de Dosificación
                                         </a>
-                                    </li>
+                                    </li>                                    
+                                    <li class="nav-item">
+                                        <a href="<?Php echo BASE_VIEW_URL; ?>systemBilling" class="nav-link">
+                                            <i class="fa fa-file-o"></i> Emisión de Facturas
+                                        </a>
+                                    </li>                                    
                                     <!--<li class="nav-item">
                                         <a href="javascript:;" class="nav-link nav-toggle">
                                             <i class="icon-settings"></i> Item 1
@@ -321,6 +325,20 @@
                                     </li>-->
                                 </ul>
                             </li>
+                            <li class="nav-item">
+                                <a href="javascript:;" class="nav-link nav-toggle">
+                                    <i class="icon-users"></i>
+                                    <span class="title">Clientes</span>
+                                    <span class="arrow "></span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li class="nav-item">
+                                        <a href="<?Php echo BASE_VIEW_URL; ?>clients" class="nav-link">
+                                            <i class="icon-user-following"></i> Gestión de Clientes
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>                            
                         </ul>
                         <!-- END SIDEBAR MENU -->
                     </div>

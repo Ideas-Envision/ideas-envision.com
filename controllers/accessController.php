@@ -35,6 +35,7 @@ class accessController extends IdEnController
                     $vPassword = (string) $_POST['vPassword'];
                     
                     //echo $vEmail.'-'.$vPassword;
+                    
                     $vVerifyUserStatus = $this->vUsersData->getUserEmailExists($vEmail);
                     
                     if($vVerifyUserStatus == 0){
@@ -59,6 +60,7 @@ class accessController extends IdEnController
 
                                 IdEnSession::setSession(DEFAULT_USER_AUTHENTICATE, true);
                                 IdEnSession::setSession(DEFAULT_USER_AUTHENTICATE.'Code', $vAccessStatus['n_coduser']);
+                                IdEnSession::setSession(DEFAULT_USER_AUTHENTICATE.'username', $vAccessStatus['c_username']);
                                 IdEnSession::setSession(DEFAULT_USER_AUTHENTICATE.'Email', $vAccessStatus['c_email']);
                                 IdEnSession::setSession(DEFAULT_USER_AUTHENTICATE.'Role', $vAccessStatus['c_userrole']);
                                 IdEnSession::setSession(DEFAULT_USER_AUTHENTICATE.'ProfileCode', $vProfileCode);
@@ -116,66 +118,82 @@ class accessController extends IdEnController
                     $vActivationcode = rand(10000, 99999);
                     $vActive = (int) 2;
                     
-                    if(($this->vUsersData->getUserNameExists($vEmail) == 0) && ($this->vUsersData->getUserEmailExists($vEmail) == 0)){
-                        $vUserCode = $this->vUsersData->userRegister($vEmail, $vPassword, $vRePassword, $vEmail, $vRole, $vActivationcode, $vActive);
-                        if($vUserCode != 0){
-                            $vOthername = (string) $vEmail;
-                            $UserNameCode = $this->vUsersData->userInfoRegister($vUserCode, $vNames, $vLastNames, $vOthername, $vBirthDate, $vCountry, $vCity, $vActive);
-                            if($UserNameCode != 0){
-                                $vProfileName = (string) strtolower(str_replace(' ', '', $vNames).str_replace(' ', '', $vLastNames));
-                                $vProfileType = 1;
-                                $ProfileCode = $this->vProfileData->profileRegister($vUserCode, $vProfileName, $vProfileType, $vActive);
-                                if(($vUserCode != 0) && ($UserNameCode != 0) && ($ProfileCode != 0)){
-                                    //echo 'El usuario se registro correctamente!';
-                                    
-                                    if($this->vUsersData->getUserEmailExists($vEmail) == 1){
-                                        $vState = $this->vUsersData->getUserState($vEmail);
-                                        if($vState == 2){
-                                            $vUserActivationCode = $this->vUsersData->getUserActivationCode($vEmail);
+                    if(strlen($vNames) <= 3){
+                        $vFormProceed = 1;
+                    } else if(strlen($vLastNames) <= 3){
+                        $vFormProceed = 2;
+                    } else if($this->isValidEmail($vEmail) == false){
+                        $vFormProceed = 3;
+                    } else if($this->vUsersData->getUserEmailExists($vEmail) != 0){
+                        $vFormProceed = 4;
+                    } else if($vPassword != $vRePassword){
+                        $vFormProceed = 5;
+                    } else if((strlen($vPassword) == 0) || (strlen($vRePassword) == 0)){
+                        $vFormProceed = 8;
+                    }
+                    
+                    if($vFormProceed == 0){
+                        if(($this->vUsersData->getUserNameExists($vEmail) == 0) && ($this->vUsersData->getUserEmailExists($vEmail) == 0)){
+                            $vUserCode = $this->vUsersData->userRegister($vEmail, $vPassword, $vRePassword, $vEmail, $vRole, $vActivationcode, $vActive);
+                            if($vUserCode != 0){
+                                $vOthername = (string) $vEmail;
+                                $UserNameCode = $this->vUsersData->userInfoRegister($vUserCode, $vNames, $vLastNames, $vOthername, $vBirthDate, $vCountry, $vCity, $vActive);
+                                if($UserNameCode != 0){
+                                    $vProfileName = (string) strtolower(str_replace(' ', '', $vNames).str_replace(' ', '', $vLastNames));
+                                    $vProfileType = 1;
+                                    $ProfileCode = $this->vProfileData->profileRegister($vUserCode, $vProfileName, $vProfileType, $vActive);
+                                    if(($vUserCode != 0) && ($UserNameCode != 0) && ($ProfileCode != 0)){
+                                        //echo 'El usuario se registro correctamente!';
+                                        
+                                        
+                                        
+                                        if($this->vUsersData->getUserEmailExists($vEmail) == 1){
+                                            $vState = $this->vUsersData->getUserState($vEmail);
+                                            if($vState == 2){
+                                                $vUserActivationCode = $this->vUsersData->getUserActivationCode($vEmail);
 
-                                            $vTextMessage = '<p>Sigue el siguiente enlace para confirmar tu correo electrónico <a href="'.BASE_VIEW_URL.'access/validateEmailAccount/'.$vEmail.'/'.$vUserActivationCode.'/'.$vState.'">Validar mi cuenta!</a></p>.';
+                                                $vTextMessage = '<p>Sigue el siguiente enlace para confirmar tu correo electrónico <a href="'.BASE_VIEW_URL.'access/validateEmailAccount/'.$vEmail.'/'.$vUserActivationCode.'/'.$vState.'">Validar mi cuenta!</a></p>.';
 
-                                            $this->getLibrary('class.phpmailer');
-                                            $this->vMail = new PHPMailer();								
-                                            //$this->vMail->IsSMTP();
-                                            $this->vMail->SMTPAuth = true;
-                                            $this->vMail->Host = 'smtp.ideas-envision.com';
-                                            $this->vMail->Username = 'informaciones@ideas-envision.com';
-                                            $this->vMail->Password = '@1nf0rm4c10n3s';
-                                            $this->vMail->SMTPSecure = 'ssl';
-                                            $this->vMail->Port = 25;
-                                            $this->vMail->SetFrom('informaciones@ideas-envision.com', 'Ideas-Envision Servicios Integrales');
-                                            $this->vMail->AddAddress(strtolower(trim($vEmail)));
-                                            $this->vMail->Subject = 'Validación de cuenta Ideas-Envision';
-                                            $this->vMail->MsgHTML($vTextMessage);											
+                                                $this->getLibrary('class.phpmailer');
+                                                $this->vMail = new PHPMailer();								
+                                                //$this->vMail->IsSMTP();
+                                                $this->vMail->SMTPAuth = true;
+                                                $this->vMail->Host = 'smtp.ideas-envision.com';
+                                                $this->vMail->Username = 'informaciones@ideas-envision.com';
+                                                $this->vMail->Password = '@1nf0rm4c10n3s';
+                                                $this->vMail->SMTPSecure = 'ssl';
+                                                $this->vMail->Port = 25;
+                                                $this->vMail->SetFrom('informaciones@ideas-envision.com', 'Ideas-Envision Servicios Integrales');
+                                                $this->vMail->AddAddress(strtolower(trim($vEmail)));
+                                                $this->vMail->Subject = 'Validación de cuenta Ideas-Envision';
+                                                $this->vMail->MsgHTML($vTextMessage);											
 
-                                            $exito = $this->vMail->Send();
+                                                $exito = $this->vMail->Send();
 
-                                            if($exito)
-                                                {
-                                                     $this->vMail->ClearAddresses();
-                                                     echo 'El usuario se registro correctamente; Las instrucciones de validación de cuenta se han enviado al correo a '.$vEmail.', gracias!';
-                                                     //echo 'true';
-                                                }
-                                            else
-                                                {
-                                                     //echo 'No se ha enviado el correo a '.$email;
-                                                    echo 'false';
-                                                }                                
+                                                if($exito)
+                                                    {
+                                                         $this->vMail->ClearAddresses();
+                                                         echo $vFormProceed = 6;
+                                                         //echo 'true';
+                                                    }
+                                                else
+                                                    {
+                                                         //echo 'No se ha enviado el correo a '.$email;
+                                                        echo $vFormProceed = 7;
+                                                    }                                
 
 
-                                        } else {
-                                            echo 'La cuenta ya esta activada!, por favor inicie sesión.';
+                                            } else {
+                                                echo $vFormProceed = 9;
+                                                //echo 'La cuenta ya esta activada!, por favor inicie sesión.';
+                                            }
                                         }
-                                    } else {
-                                       echo 'El correo electrónico '.$vEmail.', no esta registrado, por favor registre sus datos.'; 
-                                    }                                    
-                                    
-                                }                                
+                                    }
+                                }
                             }
                         }
                     } else {
-                        echo 0;
+                        echo $vFormProceed;
                     }
                 }
 			}
@@ -285,7 +303,7 @@ class accessController extends IdEnController
                     $this->vView->vStatusValidateEmailAccount = '¡UPS! Algo sucedio mal, por favor envianos un mensaje aquí';
                 }
             
-                $this->vView->visualizar('validateAccount');
+                $this->vView->visualizar('validateaccount');
 			}
 	}
 ?>

@@ -23,24 +23,34 @@ class pdfController extends IdEnController
 				$this->vView->visualizar('index');
 			}
     
-        public function printPDFBilling($vNumBilling)
+        public function printPDFBilling($vCodActivity, $vNumBilling)
             {
                 $vNumBilling = (int) $vNumBilling;
-                $vCodBilling = $this->vBillingData->getCodeBillingFromNumberBilling($vNumBilling);
+                $vCodActivity = (int) $vCodActivity;
+                $vCodBilling = $this->vBillingData->getCodeBillingFromNActivityAndNBilling($vCodActivity, $vNumBilling);
                 
                 $vNITBilling = $this->vBillingData->getNITBilling();
-                $vActivityBilling = $this->vBillingData->getNameActivity($this->vBillingData->getCodActivityFromBilling($vCodBilling));
+                $vActivityBilling = $this->vBillingData->getNameActivity($vCodActivity);
             
-                $this->vDataBilling = $this->vBillingData->getDataBilling($vNumBilling);
-                $this->vDataBillingDetail = $this->vBillingData->getDataBillingDetail($vCodBilling);
+                $this->vDataBilling = $this->vBillingData->getDataBilling($vCodBilling);
+                $this->vDataBillingDetail = $this->vBillingData->getDataBillingDetail($vCodBilling, $vCodActivity);
                 
                 $vLogoImageRoot = ROOT_APPLICATION.'views'.DIR_SEPARATOR.'layout'.DIR_SEPARATOR.DEFAULT_VIEW_LAYOUT.DIR_SEPARATOR.'backend'.DIR_SEPARATOR.'pages'.DIR_SEPARATOR.'css'.DIR_SEPARATOR;
-                $vQRCodeImageRoot = ROOT_APPLICATION.'views'.DIR_SEPARATOR.'backend'.DIR_SEPARATOR.'systemBilling'.DIR_SEPARATOR.'imagesqrcode'.DIR_SEPARATOR;
+                $vQRCodeImageRoot = ROOT_APPLICATION.'views'.DIR_SEPARATOR.'backend'.DIR_SEPARATOR.'systembilling'.DIR_SEPARATOR.'imagesqrcode'.DIR_SEPARATOR;
             
                if(isset($this->vDataBilling) && count($this->vDataBilling)):                           
                     for($i=0;$i<count($this->vDataBilling);$i++):
                         $vCodBilling = $this->vDataBilling[$i]['n_codbilling'];
                         $vCodUser = $this->vDataBilling[$i]['n_coduser'];
+            
+                        $vCodActivity = $this->vDataBilling[$i]['n_codactivity'];
+                        $vActivityWeb = $this->vDataBilling[$i]['c_web'];
+                        $vActivityEmail = $this->vDataBilling[$i]['c_email'];            
+            
+                        $vType = $this->vDataBilling[$i]['c_type'];
+                        $vLogotype = $this->vDataBilling[$i]['c_logotype'];
+                        $vDateLimit = $this->vDataBilling[$i]['d_datelimit'];                        
+            
                         $vAutorizationcode = $this->vDataBilling[$i]['c_autorizationcode'];
                         $vNameNit = $this->vDataBilling[$i]['c_namenit'];
                         $vNit = $this->vDataBilling[$i]['c_nit'];
@@ -59,10 +69,10 @@ class pdfController extends IdEnController
                 endif;        
                     
                 $htmlPDFHeader = '
-                    <table border="0">
+                    <table border="0" cellspacing="0" cellpadding="0">
                         <tbody>
                             <tr>
-                                <td rowspan="2" class="width-300"><img src="'.$vLogoImageRoot.'squemas-invoice.png" class="logo"/></td>
+                                <td rowspan="2" class="top width-300"><img src="'.$vLogoImageRoot.$vLogotype.'" class="logo"/></td>
                                 <td rowspan="2" class="width-200"></td>
                                 <td class="well1 width-300">
                                     <div align="right">
@@ -82,19 +92,18 @@ class pdfController extends IdEnController
                                         <p><strong>Ciudad,País</strong> La Paz, Bolivia</p>
                                         <p><strong>Telefono oficina</strong> 2430880</p>
                                         <p><strong>Telefono móvil</strong> 78795415</p>
-                                        <p><strong>Correo electrónico</strong> info@squemas.com</p>
-                                        <p><strong>Sitio Web www.squemas.com</p>
+                                        <p><strong>Correo electrónico</strong> '.$vActivityEmail.'</p>
+                                        <p><strong>Sitio Web '.$vActivityWeb.'</p>
                                     </div>
                                 </td>
                             </tr>
-                            
                             <tr>
-                                <td class="well3" colspan="3"><strong>FACTURA OFICIAL</strong> <span class="billingActivity">'.$vActivityBilling.'</span></td>
+                                <td class="well3" colspan="3"><strong>'.$vType.' OFICIAL</strong> <span class="billingActivity">'.$vActivityBilling.'</span></td>
                             </tr>
                         </tbody>
                     </table>
-                    
-                    <table border="0">
+                    <br/><br/>
+                    <table border="0" cellspacing="0" cellpadding="0">
                         <tbody>                            
                             <tr>
                                 <td class="title-billing width-400">Lugar y fecha de emisión</td>
@@ -170,7 +179,7 @@ class pdfController extends IdEnController
                     <table border="0">
                         <tbody>                            
                             <tr>
-                                <td class="title-billing2 width-600"><strong>Código de control</strong> <span class="text-billing2">'.$this->formatControlCodeInvoice($vControlCode).'</span><br/><strong>Fecha límite de emisión</strong> <span class="text-billing2">'.$vLimitBillingDate.'</span></td>
+                                <td class="title-billing2 width-600"><strong>Código de control</strong> <span class="text-billing2">'.$this->formatControlCodeInvoice($vControlCode).'</span><br/><strong>Fecha límite de emisión</strong> <span class="text-billing2">'.date_format(date_create($vDateLimit), 'd/m/Y').'</span></td>
                                 <td class="width-200"><img src="'.$vQRCodeImageRoot.$vQRCodeName.'"/></td>
                             </tr>                            
                         </tbody>
@@ -180,7 +189,7 @@ class pdfController extends IdEnController
                 $vhtmlPDFFooter .= '
                     <div class="myfixed1">
                         <p>Esta factura contribuye al desarrollo del país, el uso ilícito de esta será sancionado de acuerdo a la ley.</p>
-                        <p><strong>Ley Nº 453: El proveedor deberá suministrar el servicio en las modalidades y términos ofertados o convenidos.</strong></p>
+                        <p><strong>Ley N° 453: Los servicios deben suministrarse en condiciones de inocuidad, calidad y seguridad.</strong></p>
                     </div>
                 ';            
 

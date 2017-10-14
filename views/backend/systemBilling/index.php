@@ -29,7 +29,72 @@
                         <div class="note note-info">
                             <p>Esta es la página de incio del sistema de facturación del sistema EasyBilling</p>
                         </div>
-                        
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="portlet light bg-inverse">
+                                    <div class="portlet-title">
+                                        <div class="caption">
+                                            <i class="icon-puzzle font-red-flamingo"></i>
+                                            <span class="caption-subject bold font-red-flamingo uppercase"> Actividades </span>
+                                            <span class="caption-helper"> para facturar</span>
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <label>Actividad Económica</label>
+                                                <?Php
+                                                echo '<select class="form-control margin-top-10" id="vCodActivityNew" name="vCodActivityNew">';
+                                                    echo '<option value="0">Seleccionar</option>';
+                                                    if(isset($this->vNITActivities) && count($this->vNITActivities)):
+                                                        $vCount = 1;
+                                                        for($i=0;$i<count($this->vNITActivities);$i++):
+
+                                                            echo '<option value="'.$this->vNITActivities[$i]['n_codactivity'].'">'.$this->vNITActivities[$i]['c_group'].' - '.$this->vNITActivities[$i]['c_nameactivity'].'</option>';
+                                                        endfor;
+                                                    endif;
+                                                echo '</select>';                                                               
+                                                ?>
+                                            </div>
+                                            <div class="form-group">
+                                                <a href="#" class="btn red" id="btnNewBilling"><i class="fa fa-print"></i> Nueva Factura </a>
+                                                <a href="<?Php echo BASE_VIEW_URL.'systemBilling/ciclicProcess'; ?>" class="btn blue"><i class="fa fa-gear"></i> Proceso de Ciclos </a>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <a class="dashboard-stat dashboard-stat-v2 green-jungle" href="#">
+                                        <div class="visual">
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                        </div>
+                                        <div class="details">
+                                            <div class="number">
+                                                <span data-counter="counterup" data-value="<?Php echo count($this->vDataBilling); ?>">0</span>
+                                            </div>
+                                            <div class="desc"> Facturas Emitidas </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <a class="dashboard-stat dashboard-stat-v2 grey-gallery" href="#">
+                                        <div class="visual">
+                                            <i class="glyphicon glyphicon glyphicon-stats"></i>
+                                        </div>
+                                        <div class="details">
+                                            <div class="number">
+                                                <span data-counter="counterup" data-value="<?Php echo $this->vTotalAmountBilling; ?>">Bs. 0</span>
+                                            </div>
+                                            <div class="desc"> Total Facturado</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"> </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="portlet light bordered">
@@ -65,7 +130,7 @@
                                                                 echo '<td>'.$this->vDataBilling[$i]['c_namenit'].'</td>';
                                                                 echo '<td>'.$this->vDataBilling[$i]['d_billingdate'].'</td>';
                                                                 echo '<td>'.$this->vDataBilling[$i]['n_totalamount'].'</td>';
-                                                                echo '<td><a href="'.BASE_VIEW_URL.'systemBilling/invoiceLetter/'.$this->vDataBilling[$i]['n_billingnumber'].'" class="btn green" ><i class="fa fa-print"></i> Visualizar </a></td>';
+                                                                echo '<td><a href="'.BASE_VIEW_URL.'systemBilling/invoiceLetter/'.$this->vDataBilling[$i]['n_codactivity'].'/'.$this->vDataBilling[$i]['n_billingnumber'].'" class="btn green" ><i class="fa fa-print"></i> Visualizar </a></td>';
                                                             ++$vCount;
                                                         endfor;
                                                     endif;
@@ -74,10 +139,6 @@
                                         </table>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 ">
-                                <a href="#" class="btn red" id="btnNewBilling"><i class="fa fa-print"></i> Nueva Factura </a>
-                                <a href="<?Php echo BASE_VIEW_URL.'systemBilling/ciclicProcess'; ?>" class="btn blue"><i class="fa fa-gear"></i> Proceso de Ciclos </a>
                             </div>
                         </div>                        
                     </div>
@@ -149,12 +210,17 @@
         <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_global_scripts']; ?>datatable.js" type="text/javascript"></script>
         <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_global_plugins']; ?>datatables/datatables.min.js" type="text/javascript"></script>
         <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_global_plugins']; ?>datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
+
+        <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_global_plugins']; ?>counterup/jquery.waypoints.min.js" type="text/javascript"></script>
+        <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_global_plugins']; ?>counterup/jquery.counterup.min.js" type="text/javascript"></script>
         <!-- END PAGE LEVEL PLUGINS -->
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
         <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_global_scripts']; ?>app.min.js" type="text/javascript"></script>        
         <!-- END THEME GLOBAL SCRIPTS -->
         <!-- BEGIN PAGE LEVEL SCRIPTS -->
         <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_pages_scripts']; ?>table-datatables-responsive.js" type="text/javascript"></script>
+
+        <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_pages_scripts']; ?>dashboard.min.js" type="text/javascript"></script>
         <!-- END PAGE LEVEL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_layouts_scripts']; ?>layout.min.js" type="text/javascript"></script>

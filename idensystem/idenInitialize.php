@@ -36,7 +36,7 @@ class IdEnInitialize
 							}
 					}
 				else
-					{		
+					{
 						//header('Location: '.BASE_VIEW_URL.'account/exists/'.$noNeedController);
                         //header('Location: '.BASE_VIEW_URL.'error/'.$noNeedController);
                         header('Location: '.BASE_VIEW_URL.'error/controller');

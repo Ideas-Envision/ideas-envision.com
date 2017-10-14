@@ -92,9 +92,9 @@ class IdEnSession
 					
 				if(time() - IdEnSession::getSession('vTimeSessionUser') > (DEFAULT_SESSION_USER_TIME * 60))/*resta tiempo actual menos el tiempo de session del usuario*/
 					{
-						header('Location: '.BASE_VIEW_URL.'error/sessionTimeExpired');
-						//IdEnSession::sessionDestroy();
-						//header('Location: '.BASE_VIEW_URL.'error/userTimeExpired/1001');
+						//header('Location: '.BASE_VIEW_URL.'error/sessionTimeExpired');
+						IdEnSession::sessionDestroy();
+						header('Location: '.BASE_VIEW_URL.'access');
 					}
 				else
 					{

@@ -7,22 +7,18 @@
                         <div class="page-bar">
                             <ul class="page-breadcrumb">
                                 <li>
-                                    <a href="<?Php echo BASE_VIEW_URL; ?>">Dashboard</a>
+                                    <a href="<?Php echo BASE_VIEW_URL; ?>dashboard">Dashboard</a>
                                     <i class="fa fa-circle"></i>
                                 </li>
                                 <li>
-                                    <a href="#">Módulo Facturación</a>
-                                    <i class="fa fa-circle"></i>
-                                </li>
-                                <li>
-                                    <span>Facturación</span>
+                                    <span>Sistema ERP Ideas-Envision</span>
                                 </li>
                             </ul>
                         </div>
                         <!-- END PAGE BAR -->
                         <!-- BEGIN PAGE TITLE-->
-                        <h1 class="page-title"> Página Web en Blanco
-                            <small>Contenedor Web en Blacno</small>
+                        <h1 class="page-title"> Dashboard de Control
+                            <small>página de visiualización de información general</small>
                         </h1>
                         <!-- END PAGE TITLE-->
                         <!-- END PAGE HEADER-->
@@ -30,7 +26,48 @@
                             <p>Esta es la página de incio del sistema de facturación del sistema EasyBilling</p>
                         </div>
                         
-
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <a class="dashboard-stat dashboard-stat-v2 red" href="#">
+                                    <div class="visual">
+                                        <i class="glyphicon glyphicon-user"></i>
+                                    </div>
+                                    <div class="details">
+                                        <div class="number">
+                                            <span data-counter="counterup" data-value="<?Php echo $this->vTotalClients; ?>">0</span>
+                                        </div>
+                                        <div class="desc"> Número de Clientes </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <a class="dashboard-stat dashboard-stat-v2 green-jungle" href="#">
+                                    <div class="visual">
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    </div>
+                                    <div class="details">
+                                        <div class="number">
+                                            <span data-counter="counterup" data-value="<?Php echo count($this->vDataBilling); ?>">0</span>
+                                        </div>
+                                        <div class="desc"> Facturas Emitidas </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <a class="dashboard-stat dashboard-stat-v2 grey-gallery" href="#">
+                                    <div class="visual">
+                                        <i class="glyphicon glyphicon glyphicon-stats"></i>
+                                    </div>
+                                    <div class="details">
+                                        <div class="number">
+                                            <span data-counter="counterup" data-value="<?Php echo $this->vTotalAmountBilling; ?>">Bs. 0</span>
+                                        </div>
+                                        <div class="desc"> Total Facturado</div>
+                                    </div>
+                                </a>
+                            </div>                            
+                        </div>
+                        
                         <div class="row">
                             <div class="col-md-6 ">
                                 <!-- BEGIN SAMPLE FORM PORTLET-->
@@ -128,9 +165,12 @@
         <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_global_plugins']; ?>jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
         <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_global_plugins']; ?>jquery.blockui.min.js" type="text/javascript"></script>
         <!-- END CORE PLUGINS -->
+        <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_global_plugins']; ?>counterup/jquery.waypoints.min.js" type="text/javascript"></script>
+        <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_global_plugins']; ?>counterup/jquery.counterup.min.js" type="text/javascript"></script>
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
         <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_global_scripts']; ?>app.min.js" type="text/javascript"></script>
         <!-- END THEME GLOBAL SCRIPTS -->
+        <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_pages_scripts']; ?>dashboard.min.js" type="text/javascript"></script>
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_layouts_scripts']; ?>layout.min.js" type="text/javascript"></script>
         <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_layouts_scripts']; ?>demo.min.js" type="text/javascript"></script>

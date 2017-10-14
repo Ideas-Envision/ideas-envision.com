@@ -14,11 +14,17 @@ class dashboardController extends IdEnController
                 /* END VALIDATION TIME SESSION USER */ 
             
                 $this->vUsersData = $this->LoadModel('users');
+                $this->vClientsData = $this->LoadModel('client');
+                $this->vBillingData = $this->LoadModel('billing');            
 			}
 			
 		public function index(){
             
                 $this->vView->vUserNamesComplete = $this->vUsersData->getUserNamesComplete(IdEnSession::getSession(DEFAULT_USER_AUTHENTICATE.'Code'));
+                
+                $this->vView->vTotalClients = $this->vClientsData->getTotalClients();
+                $this->vView->vDataBilling = $this->vBillingData->getUserDataBillings(IdEnSession::getSession(DEFAULT_USER_AUTHENTICATE.'Code'));
+                $this->vView->vTotalAmountBilling = $this->vBillingData->getTotalAmountBilling();
                 $this->vView->visualizar('index');
             
 			}       

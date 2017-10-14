@@ -82,18 +82,18 @@
                                                             <label>Fecha de Emisión</label>
                                                             <div class="input-icon right margin-top-10">
                                                                 <i class="fa fa-check"></i>
-                                                                <input type="text" class="form-control" value="<?Php echo '2008/11/09'; ?>" name="vDateTransactionBilling" id="vDateTransactionBilling" readonly>
+                                                                <input type="text" class="form-control" value="<?Php echo date('Y/m/d'); ?>" name="vDateTransactionBilling" id="vDateTransactionBilling">
                                                             </div>
                                                         </div>
                                                     </div>                                                    
                                                 </div>                                                
-                                                <div class="form-group">
+                                                <!--<div class="form-group">
                                                     <label>Domicilio Fiscal</label>
                                                     <div class="input-icon right margin-top-10">
                                                         <i class="fa fa-check"></i>
                                                         <textarea class="form-control" placeholder="Casa Matriz Calle Pinilla Nro. 2588, Edificio Arcadia Piso Mezzanine Depto. 109B Zona/Barrio: San Jorge Teléfonos: 2430880 - 78795415, La Paz, Bolivia" disabled style="resize:none"></textarea>
                                                     </div>
-                                                </div>
+                                                </div>-->
                                                 
                                                 <label>Datos Necesarios</label><hr>
                                                 
@@ -235,7 +235,7 @@
 
                                             </div>
                                             <div class="form-actions right">
-                                                <button type="button" class="btn default">Cancelar</button>
+                                                <button type="button" class="btn default" id="cancelDataInvoice">Cancelar</button>
                                                 <button type="submit" class="btn green">Generar</button>
                                             </div>
                                         </form>

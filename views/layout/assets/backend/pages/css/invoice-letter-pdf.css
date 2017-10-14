@@ -7,6 +7,9 @@ margin-top: 2pt; margin-bottom: 5pt;
 border-collapse: collapse;
 width: 100%;}
 
+td.top { vertical-align: top; }
+td.bottom { vertical-align: bottom; }
+
 .logo {
     width: 300px;
 }
@@ -41,11 +44,15 @@ p.title-1 {
 
 td.well3 {
     width: 100%;
-    padding: 5px 10px;
+    padding: 20px 0 20px 0;
     text-align: left;
     font-size: 20px;    
     font-stretch: condensed;
     text-transform: uppercase;
+    border-top: 1px solid #FFF;
+    border-bottom: 1px solid #e7ecf1;
+    border-left: 1px solid #FFF;
+    border-right: 1px solid #FFF;    
 }
 
 span.billingActivity {

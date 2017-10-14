@@ -83,6 +83,7 @@
                         echo '<li>';
                             echo '<a href="#" class="contains-sub-menu">'.$this->vUserNamesComplete.'</a>';
                             echo '<ul class="sub-menu">';
+                                echo '<li><a href="'.BASE_VIEW_URL.'dashboard">Dashboard</a></li>';        
                                 echo '<li><a href="'.BASE_VIEW_URL.'access/LogoutMethod/">Salir</a></li>';
                             echo '</ul>';
                         echo '</li>';
